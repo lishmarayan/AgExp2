@@ -9,6 +9,12 @@ then
     echo "No changes to commit."
 else
     git commit -m "Automatic backup: $(date)"
-    git push origin main
-    echo "Changes pushed successfully."
+
+    if git push origin main
+    then
+        echo "Changes pushed successfully."
+    else
+        echo "Git push failed."
+        exit 1
+    fi
 fi
