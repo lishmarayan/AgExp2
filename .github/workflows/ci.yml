@@ -1,0 +1,51 @@
+name: AgExp2 CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Bash scripts
+        run: |
+          echo "Checking Bash scripts..."
+          bash -n auto_log.sh
+          bash -n git_backup.sh
+          echo "All Bash scripts passed syntax validation."
+
+      - name: Run automation script
+        run: |
+          chmod +x auto_log.sh
+          ./auto_log.sh
+
+      - name: Display automation output
+        run: |
+          echo "Latest automation log:"
+          tail -n 5 output.txt
+
+      - name: Generate CI/CD report
+        run: |
+          echo "CI/CD Pipeline Report" > ci_report.txt
+          echo "=====================" >> ci_report.txt
+          echo "Pipeline: SUCCESS" >> ci_report.txt
+          echo "Bash syntax validation: PASSED" >> ci_report.txt
+          echo "Automation script execution: PASSED" >> ci_report.txt
+          echo "Output generation: PASSED" >> ci_report.txt
+          echo "Timestamp: $(date)" >> ci_report.txt
+          cat ci_report.txt
+
+      - name: Upload CI/CD report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-cd-report
+          path: ci_report.txt
