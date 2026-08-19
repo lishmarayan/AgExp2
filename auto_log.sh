@@ -6,3 +6,4 @@ echo "Executed from automation-test branch"
 # Pre-commit validation test
 #Post-commit hook test
 # Final post-commit hook test
+#Agile issue #1 - automated  Git logging
