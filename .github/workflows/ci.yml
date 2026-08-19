@@ -49,3 +49,19 @@ jobs:
         with:
           name: ci-cd-report
           path: ci_report.txt
+      - name: Run prompt-based automation report
+        run: |
+          chmod +x prompt_report.sh
+          ./prompt_report.sh
+
+      - name: Display prompt-based report
+        run: |
+          echo "Prompt-Based Automation Report:"
+          cat prompt_report.md
+
+      - name: Upload prompt-based report
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-automation-report
+          path: prompt_report.md
+
